@@ -141,20 +141,46 @@ pub struct AccountTransaction {
     block_number: BlockNumber,
 }
 
+#[derive(Serialize)]
+pub struct cfilter{
+	block_hash:       Byte32,
+	filter_bytes:     Bytes,
+}
+
+#[derive(Serialize)]
+pub struct gcs_filter_hashes {
+    stop_hash:              Byte32,         // The hash of the last block in the requested range
+    parent_hash:            Byte32,         // The filter header preceding the first block in the requested range
+    filter_hashes:          Byte32Vec,      // The filter hashes for each block in the requested range
+}
+
 const SECP256K1_BLAKE160_SIGHASH_ALL_TYPE_HASH: H256 =
     h256!("0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8");
 const DEFAULT_FEE_RATE: usize = 1;
 
+/*
+    GetGcsFilters,
+    GcsFilter,
+    GetGcsFilterHashes,
+    GcsFilterHashes,
+    GetGcsFilterCheckPoint,
+    GcsFilterCheckPoint,
+*/
 #[rpc(server)]
 pub trait Rpc {
-    #[rpc(name = "add_filter")]
-    fn add_filter(&self, script: Script) -> Result<()>;
+    #[rpc(name = "get_gcs_filters")]
+    fn "get_gcs_filters"(&self, start_block: Uint64, stop_hash:byte32) -> Result<Vec<cfilter>>;
 
-    #[rpc(name = "get_cells")]
-    fn get_cells(&self, script: Script) -> Result<Vec<Cell>>;
+    #[rpc(name = "get_gcs_filter_hashes")]
+    fn get_gcs_filter_hashes(&self, start_block: Uint64, stop_hash:byte32) -> Result<gcs_filter_hashes>;
 
+
+//TODO::
+    #[rpc(name = "get_gcs_filter_checkpoint")]
+    fn get_gcs_filter_checkpoint(&self, transaction: Transaction) -> Result<H256>;
+    
     #[rpc(name = "send_transaction")]
-    fn send_transaction(&self, transaction: Transaction) -> Result<H256>;
+    fn send_transaction(&self, transaction: Transaction) -> Result<H256>;    
 
     #[rpc(name = "generate_account")]
     fn generate_account(&self) -> Result<()>;

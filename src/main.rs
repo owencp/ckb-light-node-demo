@@ -6,7 +6,7 @@ use ckb_logger::info;
 use ckb_logger_config::Config as LogConfig;
 use ckb_network::{
     BlockingFlag, CKBProtocol, DefaultExitHandler, ExitHandler, NetworkService, NetworkState,
-    SupportProtocols,
+    NetworkProtocols,MAX_FRAME_LENGTH_GCSFILTER, MAX_FRAME_LENGTH_RELAY, MAX_FRAME_LENGTH_SYNC,
 };
 use clap::{App, Arg};
 use crossbeam_channel::unbounded;
@@ -114,8 +114,11 @@ fn init(
         Arc::new(NetworkState::from_config(config).expect("Init network state failed"));
     let exit_handler = DefaultExitHandler::default();
     let required_protocol_ids = vec![
-        SupportProtocols::Sync.protocol_id(),
-        SupportProtocols::BloomFilter.protocol_id(),
+        //SupportProtocols::Sync.protocol_id(),
+        //SupportProtocols::BloomFilter.protocol_id(),
+        NetworkProtocol::SYNC.into(),
+        NetworkProtocol::RELAY.into(),
+        NetworkProtocol::GCSFILTER.into(),
     ];
 
     let mut blocking_recv_flag = BlockingFlag::default();
@@ -127,6 +130,7 @@ fn init(
     let filter_protocol = Box::new(FilterProtocol::new(store, consensus.clone(), receiver));
 
     let protocols = vec![
+    /*
         CKBProtocol::new_with_support_protocol(
             SupportProtocols::Sync,
             sync_protocol,
@@ -136,6 +140,34 @@ fn init(
             SupportProtocols::BloomFilter,
             filter_protocol,
             Arc::clone(&network_state),
+        ),
+    */
+        CKBProtocol::new(
+            "syn".to_string(),
+            NetworkProtocol::SYNC.into(),
+            &["1".to_string()][..],
+            MAX_FRAME_LENGTH_SYNC,
+            Box::new(synchronizer.clone()),
+            Arc::clone(&network_state),
+            blocking_recv_flag,
+        ),
+        CKBProtocol::new(
+            "rel".to_string(),
+            NetworkProtocol::RELAY.into(),
+            &["1".to_string()][..],
+            MAX_FRAME_LENGTH_RELAY,
+            Box::new(relayer),
+            Arc::clone(&network_state),
+            blocking_recv_flag,
+        ),
+        CKBProtocol::new(
+            "gcs".to_string(),
+            NetworkProtocol::GCSFILTER.into(),
+            &["1".to_string()][..],
+            MAX_FRAME_LENGTH_GCSFILTER,
+            Box::new(gcs_filter),
+            Arc::clone(&network_state),
+            blocking_recv_flag,
         ),
     ];
 

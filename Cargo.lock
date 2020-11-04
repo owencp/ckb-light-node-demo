@@ -172,9 +172,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "bloom-filters"
+name = "gcs-filters"
 version = "0.1.0"
-source = "git+https://github.com/nervosnetwork/bloom-filters#50c1b685b2d78cf3625ca016313d3d8fb36e18a3"
+//note by owen: need gcs-filter
+source = "git+https://github.com/nervosnetwork/gcs-filters"
 dependencies = [
  "rand 0.6.5",
 ]
@@ -271,7 +272,7 @@ dependencies = [
 [[package]]
 name = "ckb-app-config"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "ckb-build-info",
  "ckb-chain-spec",
@@ -297,12 +298,12 @@ dependencies = [
 [[package]]
 name = "ckb-build-info"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 
 [[package]]
 name = "ckb-chain-spec"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "ckb-crypto",
  "ckb-dao-utils",
@@ -321,7 +322,7 @@ dependencies = [
 [[package]]
 name = "ckb-crypto"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "ckb-fixed-hash",
  "failure",
@@ -334,7 +335,7 @@ dependencies = [
 [[package]]
 name = "ckb-dao-utils"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "byteorder",
  "ckb-error",
@@ -346,7 +347,7 @@ dependencies = [
 [[package]]
 name = "ckb-error"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "ckb-occupied-capacity",
  "enum-display-derive",
@@ -357,7 +358,7 @@ dependencies = [
 [[package]]
 name = "ckb-fee-estimator"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "ckb-logger",
  "ckb-types",
@@ -367,7 +368,7 @@ dependencies = [
 [[package]]
 name = "ckb-fixed-hash"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "ckb-fixed-hash-core",
  "ckb-fixed-hash-macros",
@@ -376,7 +377,7 @@ dependencies = [
 [[package]]
 name = "ckb-fixed-hash-core"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "failure",
  "faster-hex 0.4.1",
@@ -386,7 +387,7 @@ dependencies = [
 [[package]]
 name = "ckb-fixed-hash-macros"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "ckb-fixed-hash-core",
  "proc-macro2 0.4.30",
@@ -397,7 +398,7 @@ dependencies = [
 [[package]]
 name = "ckb-hash"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "blake2b-rs",
 ]
@@ -405,7 +406,7 @@ dependencies = [
 [[package]]
 name = "ckb-jsonrpc-types"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "ckb-types",
  "faster-hex 0.4.1",
@@ -448,7 +449,7 @@ dependencies = [
 [[package]]
 name = "ckb-logger"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "log 0.4.11",
  "serde_json",
@@ -457,7 +458,7 @@ dependencies = [
 [[package]]
 name = "ckb-logger-config"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "serde",
 ]
@@ -465,7 +466,7 @@ dependencies = [
 [[package]]
 name = "ckb-logger-service"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "ansi_term 0.12.1",
  "backtrace",
@@ -483,7 +484,7 @@ dependencies = [
 [[package]]
 name = "ckb-metrics-config"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "log 0.4.11",
  "serde",
@@ -492,7 +493,7 @@ dependencies = [
 [[package]]
 name = "ckb-network"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "bs58",
  "ckb-app-config",
@@ -524,7 +525,7 @@ dependencies = [
 [[package]]
 name = "ckb-occupied-capacity"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "ckb-occupied-capacity-core",
  "ckb-occupied-capacity-macros",
@@ -533,7 +534,7 @@ dependencies = [
 [[package]]
 name = "ckb-occupied-capacity-core"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "serde",
 ]
@@ -541,7 +542,7 @@ dependencies = [
 [[package]]
 name = "ckb-occupied-capacity-macros"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "ckb-occupied-capacity-core",
  "quote 0.6.13",
@@ -551,7 +552,7 @@ dependencies = [
 [[package]]
 name = "ckb-pow"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "byteorder",
  "ckb-hash",
@@ -564,7 +565,7 @@ dependencies = [
 [[package]]
 name = "ckb-rational"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "numext-fixed-uint",
 ]
@@ -572,7 +573,7 @@ dependencies = [
 [[package]]
 name = "ckb-resource"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "ckb-system-scripts",
  "ckb-types",
@@ -587,7 +588,7 @@ dependencies = [
 [[package]]
 name = "ckb-stop-handler"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "ckb-logger",
  "crossbeam-channel",
@@ -612,7 +613,7 @@ dependencies = [
 [[package]]
 name = "ckb-types"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "bit-vec",
  "bytes 0.5.6",
@@ -632,7 +633,7 @@ dependencies = [
 [[package]]
 name = "ckb-util"
 version = "0.36.0-pre"
-source = "git+https://github.com/nervosnetwork/ckb?branch=quake/bloom-filter#3cf8437cabf570362d7e9be68babb9ae4153bd34"
+source = "git+https://github.com/nervosnetwork/ckb?branch=quake/gcs-filter#51def30dfb2e91d6913309355050257a82ad69a5"
 dependencies = [
  "linked-hash-map",
  "parking_lot 0.7.1",
