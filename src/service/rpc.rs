@@ -142,42 +142,41 @@ pub struct AccountTransaction {
 }
 
 #[derive(Serialize)]
-pub struct cfilter{
+pub struct GcsFilter {
 	block_hash:       Byte32,
 	filter_bytes:     Bytes,
 }
 
 #[derive(Serialize)]
-pub struct gcs_filter_hashes {
+pub struct GcsFilterHashes {
     stop_hash:              Byte32,         // The hash of the last block in the requested range
     parent_hash:            Byte32,         // The filter header preceding the first block in the requested range
     filter_hashes:          Byte32Vec,      // The filter hashes for each block in the requested range
+}
+
+#[derive(Serialize)]
+table GcsFilterCheckPoint {
+    stop_hash:              Byte32,         // The hash of the last block in the chain that headers are requested for
+    filter_hashes:          Byte32Vec,      // The filter hashes at intervals of requested for
 }
 
 const SECP256K1_BLAKE160_SIGHASH_ALL_TYPE_HASH: H256 =
     h256!("0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8");
 const DEFAULT_FEE_RATE: usize = 1;
 
-/*
-    GetGcsFilters,
-    GcsFilter,
-    GetGcsFilterHashes,
-    GcsFilterHashes,
-    GetGcsFilterCheckPoint,
-    GcsFilterCheckPoint,
-*/
 #[rpc(server)]
 pub trait Rpc {
     #[rpc(name = "get_gcs_filters")]
-    fn "get_gcs_filters"(&self, start_block: Uint64, stop_hash:byte32) -> Result<Vec<cfilter>>;
+    fn get_gcs_filters(&self, start_block: Uint64, stop_hash:byte32) -> Result<Vec<GcsFilter>>;
 
     #[rpc(name = "get_gcs_filter_hashes")]
-    fn get_gcs_filter_hashes(&self, start_block: Uint64, stop_hash:byte32) -> Result<gcs_filter_hashes>;
+    fn get_gcs_filter_hashes(&self, start_block: Uint64, stop_hash:byte32) -> Result<GcsFilterHashes>;
 
-
-//TODO::
     #[rpc(name = "get_gcs_filter_checkpoint")]
-    fn get_gcs_filter_checkpoint(&self, transaction: Transaction) -> Result<H256>;
+    fn get_gcs_filter_checkpoint(&self, stop_hash: Byte32, interval:Uint32) -> Result<GcsFilterCheckPoint>;
+
+    #[rpc(name = "get_cells")]
+    fn get_cells(&self, script: Script) -> Result<Vec<Cell>>;
     
     #[rpc(name = "send_transaction")]
     fn send_transaction(&self, transaction: Transaction) -> Result<H256>;    
@@ -219,8 +218,16 @@ impl<S> RpcImpl<S> {
 }
 
 impl<S: Store + Send + Sync + 'static> Rpc for RpcImpl<S> {
-    fn add_filter(&self, script: Script) -> Result<()> {
-        self.send_control_message(ControlMessage::AddFilter(script.into()))
+    fn get_gcs_filters(&self, start_block: Uint64, stop_hash:Byte32)-> Result<Vec<GcsFilter>> {
+        self.send_control_message(ControlMessage::GetGcsFilters(start_block.into(), stop_hash.into()))
+    }
+    
+    fn get_gcs_filter_hashes(&self, start_block: Uint64, stop_hash:byte32) -> Result<GcsFilterHashes> {
+        self.send_control_message(ControlMessage::GetGcsFilterHashes(start_block.into(), stop_hash.into()))
+    }
+
+    fn get_gcs_filter_checkpoint(&self, stop_hash: Byte32, interval:Uint32) -> Result<GcsFilterCheckPoint> {
+        self.send_control_message(ControlMessage::GetGcsFilterCheckPoint(stop_hash.into(), interval.into()))
     }
 
     fn get_cells(&self, script: Script) -> Result<Vec<Cell>> {

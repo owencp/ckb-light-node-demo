@@ -1,6 +1,9 @@
 use super::{ChainStore, HeaderProviderWrapper, HeaderVerifier};
 use crate::store::Store;
-use bloom_filters::{BloomFilter, ClassicBloomFilter, DefaultBuildHashKernels, DefaultBuildHasher};
+
+//note by owen: add gcs_filters
+//use bloom_filters::{BloomFilter, ClassicBloomFilter, DefaultBuildHashKernels, DefaultBuildHasher};
+
 use ckb_chain_spec::consensus::Consensus;
 use ckb_logger::{debug, info};
 use ckb_network::{bytes::Bytes, CKBProtocolContext, CKBProtocolHandler, PeerIndex};
@@ -18,7 +21,7 @@ const MAX_GET_FILTERED_BLOCKS_LEN: usize = 512;
 const FILTER_RAW_DATA_SIZE: usize = 128;
 const FILTER_NUM_HASHES: u8 = 10;
 
-pub type Filter = ClassicBloomFilter<DefaultBuildHashKernels<DefaultBuildHasher>>;
+//pub type Filter = ClassicBloomFilter<DefaultBuildHashKernels<DefaultBuildHasher>>;
 
 pub struct FilterProtocol<S> {
     store: ChainStore<S>,
@@ -45,8 +48,13 @@ impl<S> FilterProtocol<S> {
 }
 
 pub enum ControlMessage {
-    AddFilter(packed::Script),
     SendTransaction(packed::Transaction),
+}
+
+pub enum GetGcsFilterMessage {
+    GetGcsFilters(packed::Uint64, packed::Byte32),
+    GetGcsFilterHashes(packed::Uint64, packed::Byte32),
+    GetGcsFilterCheckPoint(packed::Byte32, packed::Uint32),
 }
 
 impl<S: Store + Send + Sync> CKBProtocolHandler for FilterProtocol<S> {
@@ -169,21 +177,21 @@ impl<S: Store + Send + Sync> CKBProtocolHandler for FilterProtocol<S> {
     }
 
     fn received(&mut self, nc: Arc<dyn CKBProtocolContext + Sync>, peer: PeerIndex, data: Bytes) {
-        let message = match packed::FilterMessage::from_slice(&data) {
+        let message = match packed::GcsFilterMessage::from_slice(&data) {
             Ok(msg) => msg.to_enum(),
             _ => {
-                info!("peer {} sends us a malformed filter message", peer);
+                info!("peer {} sends us a malformed Gcsfilter message", peer);
                 nc.ban_peer(
                     peer,
                     BAD_MESSAGE_BAN_TIME,
-                    String::from("send us a malformed filter message"),
+                    String::from("send us a malformed Gcsfilter message"),
                 );
                 return;
             }
         };
 
         match message.as_reader() {
-            packed::FilterMessageUnionReader::FilteredBlocks(reader) => {
+            packed::GcsFilterMessageUnionReader::GcsFilter(reader) => {
                 let filtered_blocks = reader.to_entity();
                 info!(
                     "received FilteredBlocks from peer: {}, unmatched_block_hashes len: {}, matched_block_hashes len: {}",
@@ -202,7 +210,7 @@ impl<S: Store + Send + Sync> CKBProtocolHandler for FilterProtocol<S> {
                     .insert_filtered_blocks(filtered_blocks)
                     .expect("store should be OK");
             }
-            packed::FilterMessageUnionReader::FilteredBlock(reader) => {
+            packed::GcsFilterMessageUnionReader::GcsFilterHashes(reader) => {
                 let header_provider = HeaderProviderWrapper { store: &self.store };
                 let header_verifier = HeaderVerifier::new(&self.consensus, &header_provider);
                 let filtered_block = reader.to_entity();
@@ -219,6 +227,9 @@ impl<S: Store + Send + Sync> CKBProtocolHandler for FilterProtocol<S> {
                         .expect("store should be OK");
                 }
             }
+            packed::GcsFilterMessageUnionReader::GcsFilterCheckPoint(reader) => {
+                //TODO::
+            }
             _ => {
                 // ignore
             }
@@ -228,35 +239,5 @@ impl<S: Store + Send + Sync> CKBProtocolHandler for FilterProtocol<S> {
     fn disconnected(&mut self, _nc: Arc<dyn CKBProtocolContext + Sync>, _peer: PeerIndex) {
         self.peer_filter_hash_seed = None;
         self.pending_get_filtered_blocks.clear();
-    }
-}
-
-fn new_filter(hash_seed: u32) -> Filter {
-    Filter::with_raw_data(
-        &[0; FILTER_RAW_DATA_SIZE],
-        FILTER_NUM_HASHES as usize,
-        DefaultBuildHashKernels::new(hash_seed as usize, DefaultBuildHasher),
-    )
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_new_filter() {
-        let seed = rand::random();
-        let script = packed::Script::default();
-        let mut filter1 = new_filter(seed);
-        filter1.insert(&script.calc_script_hash());
-        assert!(filter1.contains(&script.calc_script_hash()));
-
-        let filter2 = Filter::with_raw_data(
-            &filter1.buckets().raw_data(),
-            FILTER_NUM_HASHES as usize,
-            DefaultBuildHashKernels::new(seed as usize, DefaultBuildHasher),
-        );
-        assert_eq!(filter1.buckets().raw_data(), filter2.buckets().raw_data());
-        assert!(filter2.contains(&script.calc_script_hash()));
     }
 }
