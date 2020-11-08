@@ -141,25 +141,6 @@ pub struct AccountTransaction {
     block_number: BlockNumber,
 }
 
-#[derive(Serialize)]
-pub struct GcsFilter {
-	block_hash:       Byte32,
-	filter_bytes:     Bytes,
-}
-
-#[derive(Serialize)]
-pub struct GcsFilterHashes {
-    stop_hash:              Byte32,         // The hash of the last block in the requested range
-    parent_hash:            Byte32,         // The filter header preceding the first block in the requested range
-    filter_hashes:          Byte32Vec,      // The filter hashes for each block in the requested range
-}
-
-#[derive(Serialize)]
-table GcsFilterCheckPoint {
-    stop_hash:              Byte32,         // The hash of the last block in the chain that headers are requested for
-    filter_hashes:          Byte32Vec,      // The filter hashes at intervals of requested for
-}
-
 const SECP256K1_BLAKE160_SIGHASH_ALL_TYPE_HASH: H256 =
     h256!("0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8");
 const DEFAULT_FEE_RATE: usize = 1;
@@ -167,13 +148,13 @@ const DEFAULT_FEE_RATE: usize = 1;
 #[rpc(server)]
 pub trait Rpc {
     #[rpc(name = "get_gcs_filters")]
-    fn get_gcs_filters(&self, start_block: Uint64, stop_hash:byte32) -> Result<Vec<GcsFilter>>;
+    fn get_gcs_filters(&self, start_block: Uint64, stop_hash:byte32) -> Result<Vec<packed::GcsFilter>>;
 
     #[rpc(name = "get_gcs_filter_hashes")]
-    fn get_gcs_filter_hashes(&self, start_block: Uint64, stop_hash:byte32) -> Result<GcsFilterHashes>;
+    fn get_gcs_filter_hashes(&self, start_block: Uint64, stop_hash:byte32) -> Result<packed::GcsFilterHashes>;
 
     #[rpc(name = "get_gcs_filter_checkpoint")]
-    fn get_gcs_filter_checkpoint(&self, stop_hash: Byte32, interval:Uint32) -> Result<GcsFilterCheckPoint>;
+    fn get_gcs_filter_checkpoint(&self, stop_hash: Byte32, interval:Uint32) -> Result<packed::GcsFilterCheckPoint>;
 
     #[rpc(name = "get_cells")]
     fn get_cells(&self, script: Script) -> Result<Vec<Cell>>;
@@ -218,15 +199,15 @@ impl<S> RpcImpl<S> {
 }
 
 impl<S: Store + Send + Sync + 'static> Rpc for RpcImpl<S> {
-    fn get_gcs_filters(&self, start_block: Uint64, stop_hash:Byte32)-> Result<Vec<GcsFilter>> {
+    fn get_gcs_filters(&self, start_block: Uint64, stop_hash:Byte32)-> Result<Vec<packed::GcsFilter>> {
         self.send_control_message(ControlMessage::GetGcsFilters(start_block.into(), stop_hash.into()))
     }
     
-    fn get_gcs_filter_hashes(&self, start_block: Uint64, stop_hash:byte32) -> Result<GcsFilterHashes> {
+    fn get_gcs_filter_hashes(&self, start_block: Uint64, stop_hash:byte32) -> Result<packed::GcsFilterHashes> {
         self.send_control_message(ControlMessage::GetGcsFilterHashes(start_block.into(), stop_hash.into()))
     }
 
-    fn get_gcs_filter_checkpoint(&self, stop_hash: Byte32, interval:Uint32) -> Result<GcsFilterCheckPoint> {
+    fn get_gcs_filter_checkpoint(&self, stop_hash: Byte32, interval:Uint32) -> Result<packed::GcsFilterCheckPoint> {
         self.send_control_message(ControlMessage::GetGcsFilterCheckPoint(stop_hash.into(), interval.into()))
     }
 

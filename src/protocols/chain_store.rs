@@ -215,6 +215,14 @@ impl<S: Store> ChainStore<S> {
         batch.commit()
     }
 
+    //Gcs filter
+    pub fn insert_filter_hashes(&self, filter_hashes: packed::GcsFilterHashes)->Result<(), Error> {
+        let mut batch = self.store.batch()?;
+        //TODO::
+    }
+
+    //pub fn insert_filter_headers(&self, )
+
     pub fn insert_header(&self, header: HeaderView) -> Result<(), Error> {
         let mut batch = self.store.batch()?;
         let parent_total_difficulty = self

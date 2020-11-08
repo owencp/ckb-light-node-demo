@@ -21,21 +21,19 @@ jsonrpc-derive = "14.0"
 jsonrpc-http-server = "14.0"
 jsonrpc-server-utils = "14.0"
 
-ckb-app-config = { git = "https://github.com/nervosnetwork/ckb", branch = "quake/gcs-filter" }
-ckb-logger-service = { git = "https://github.com/nervosnetwork/ckb", branch = "quake/gcs-filter" }
-ckb-network = { git = "https://github.com/nervosnetwork/ckb", branch = "quake/gcs-filter" }
-ckb-logger = { git = "https://github.com/nervosnetwork/ckb", branch = "quake/gcs-filter" }
-ckb-logger-config = { git = "https://github.com/nervosnetwork/ckb", branch = "quake/gcs-filter" }
-ckb-types = { git = "https://github.com/nervosnetwork/ckb", branch = "quake/gcs-filter" }
-ckb-chain-spec = { git = "https://github.com/nervosnetwork/ckb", branch = "quake/gcs-filter" }
-ckb-resource = { git = "https://github.com/nervosnetwork/ckb", branch = "quake/gcs-filter" }
-ckb-jsonrpc-types = { git = "https://github.com/nervosnetwork/ckb", branch = "quake/gcs-filter" }
-ckb-crypto = { git = "https://github.com/nervosnetwork/ckb", branch = "quake/gcs-filter" }
-ckb-hash = { git = "https://github.com/nervosnetwork/ckb", branch = "quake/gcs-filter" }
 
+# ckb-app-config = { git = "https://github.com/owencp/ckb", branch = "quake/gcs-filter" }
+# ckb-logger-service = { git = "https://github.com/owencp/ckb", branch = "quake/gcs-filter" }
+ckb-network = { git = "https://github.com/owencp/ckb", branch = "quake/gcs-filter" }
+ckb-logger = { git = "https://github.com/owencp/ckb", branch = "quake/gcs-filter" }
+# ckb-logger-config = { git = "https://github.com/owencp/ckb", branch = "quake/gcs-filter" }
+ckb-types = { git = "https://github.com/owencp/ckb", branch = "quake/gcs-filter" }
+ckb-chain-spec = { git = "https://github.com/owencp/ckb", branch = "quake/gcs-filter" }
+ckb-resource = { git = "https://github.com/owencp/ckb", branch = "quake/gcs-filter" }
+ckb-jsonrpc-types = { git = "https://github.com/owencp/ckb", branch = "quake/gcs-filter" }
+ckb-crypto = { git = "https://github.com/owencp/ckb", branch = "quake/gcs-filter" }
+ckb-hash = { git = "https://github.com/owencp/ckb", branch = "quake/gcs-filter" }
 
-//note by owen: need gcs-filter
-//bloom-filters = { git = "https://github.com/nervosnetwork/bloom-filters" }
 
 [dev-dependencies]
 tempfile = "3.0"
