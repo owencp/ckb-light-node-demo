@@ -216,13 +216,18 @@ impl<S: Store> ChainStore<S> {
     }
 
     //Gcs filter
-    pub fn insert_filter_hashes(&self, filter_hashes: packed::GcsFilterHashes)->Result<(), Error> {
+    pub fn insert_gcs_filter(&self, filter: packed::GcsFilter)->Result<(), Error> {
         let mut batch = self.store.batch()?;
         //TODO::
     }
-
-    //pub fn insert_filter_headers(&self, )
-
+    //Gcs filters hashes
+    pub fn insert_filter_headers(&self, hashes:packed::GcsFilterHashes)->Result<(), Error> {
+        //TODO::
+    }
+    //gcs checkpoint
+    pub fn insert_gcs_checkpoint(&self, gcs_ck:packed::GcsFilterCheckPoint)->Result<(), Error> {
+        //TODO::
+    }
     pub fn insert_header(&self, header: HeaderView) -> Result<(), Error> {
         let mut batch = self.store.batch()?;
         let parent_total_difficulty = self
